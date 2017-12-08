@@ -58,13 +58,13 @@
 								success : function(JSONData , status) {
 
 									//Debug...
+									/*
 									alert(status);
-									//Debug...
 									alert("JSONData : \n"+JSONData);
-									
+									//*/
 									var displayValue = "<h3>"
 																+"아이디 : "+JSONData.userId+"<br/>"
-																+"이  름 : "+JSONData.userName+"<br/>"
+																+"이   름 : "+JSONData.userName+"<br/>"
 																+"이메일 : "+JSONData.email+"<br/>"
 																+"ROLE : "+JSONData.role+"<br/>"
 																+"등록일 : "+JSONData.regDate+"<br/>"

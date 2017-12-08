@@ -57,23 +57,26 @@
 							success : function(JSONData , status) {
 
 								//Debug...
+								/*
 								alert(status);
 								alert("JSONData : \n"+JSONData);
 								alert( "JSON.stringify(JSONData) : \n"+JSON.stringify(JSONData) );
 								alert( JSONData != null );
+								//*/
 								
 								if( JSONData != null ){
 									//[规过1]
-									//$(window.parent.document.location).attr("href","/index.jsp");
+									$(window.parent.document.location).attr("href","/index.jsp");
 									
 									//[规过2]
 									//window.parent.document.location.reload();
 									
 									//[规过3]
+									/*
 									$(window.parent.frames["topFrame"].document.location).attr("href","/layout/top.jsp");
 									$(window.parent.frames["leftFrame"].document.location).attr("href","/layout/left.jsp");
 									$(window.parent.frames["rightFrame"].document.location).attr("href","/user/getUser?userId="+JSONData.userId);
-									
+									//*/
 									//==> 规过 1 , 2 , 3 搬苞 切牢
 								}
 							}
@@ -112,7 +115,8 @@
     	<table width="650" height="390" border="0" cellpadding="0" cellspacing="0">
         <tr>
           <td width="305">
-            <img src="/images/logo-spring.png" width="305" height="390"/>
+            <!-- <img src="/images/logo-spring.png" width="305" height="390"/> --> 
+            <img src="/images/Chicago_cloud bean.jpg" width="550" />
           </td>
           <td width="345" align="left" valign="top" background="/images/login02.gif">
           	<table width="100%" height="220" border="0" cellpadding="0" cellspacing="0">
