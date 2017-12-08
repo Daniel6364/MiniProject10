@@ -25,7 +25,7 @@ $(function(){
 
 $(function(){
 	$( "td.ct_btn01:contains('추가등록')" ).bind("click", function(){
-		"../product/addProductView.jsp;"
+		self.location = "../product/addProductView.jsp;"
 	});
 });
 
@@ -34,7 +34,6 @@ $(function(){
 
 <body bgcolor="#ffffff" text="#000000">
 
-<!-- <form name="detailForm" method="post"> -->
 <form name="detailForm">
 
 <table width="100%" height="37" border="0" cellpadding="0"	cellspacing="0">
@@ -137,7 +136,6 @@ $(function(){
 					</td>
 					<td background="/images/ct_btnbg02.gif" class="ct_btn01" style="padding-top:3px;">
 						확인
-					<!-- <a href="/product/listProduct?menu=manage">확인</a> -->
 					</td>
 					<td width="14" height="23">
 						<img src="/images/ct_btnbg03.gif" width="14" height="23"/>
@@ -147,7 +145,6 @@ $(function(){
 					</td>
 					<td background="/images/ct_btnbg02.gif" class="ct_btn01" style="padding-top:3px;">
 						추가등록
-					<!-- <a href="../product/addProductView.jsp;">추가등록</a> -->
 					</td>
 					<td width="14" height="23">
 						<img src="/images/ct_btnbg03.gif" width="14" height="23"/>

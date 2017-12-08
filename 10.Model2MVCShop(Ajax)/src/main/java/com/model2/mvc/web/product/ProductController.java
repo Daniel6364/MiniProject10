@@ -28,8 +28,8 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import com.model2.mvc.common.Page;
 import com.model2.mvc.common.Search;
 import com.model2.mvc.service.domain.Product;
-import com.model2.mvc.service.domain.Purchase;
 import com.model2.mvc.service.product.ProductService;
+import com.model2.mvc.service.user.UserService;
 
 
 //==> 惑前包府 Controller
@@ -39,8 +39,13 @@ public class ProductController {
 	
 	///Field
 	@Autowired
+	@Qualifier("userServiceImpl")
+	private UserService userService;
+	
+	@Autowired
 	@Qualifier("productServiceImpl")
 	private ProductService productService;
+	
 	//setter Method 备泅 臼澜
 		
 	public ProductController(){
@@ -63,8 +68,8 @@ public class ProductController {
 	}
 
 	// FileUpload 1.
-	/*
-	@RequestMapping( value="addProduct", method=RequestMethod.POST )
+	
+	//@RequestMapping( value="addProduct", method=RequestMethod.POST )
 	public String addProduct( @ModelAttribute("product") Product product, 
 			HttpServletRequest request, HttpServletResponse response, 
 			Model model) throws Exception {
@@ -141,10 +146,8 @@ public class ProductController {
 		
 		return "forward:/product/getProduct.jsp";
 	}
-//*/		
 	
 	
-	///*
 	// FileUpload 2.
 	@RequestMapping( value="addProduct", method=RequestMethod.POST )
 	public String addProduct( @ModelAttribute("product") Product product, 
@@ -154,7 +157,7 @@ public class ProductController {
 		System.out.println("/product/addProduct : POST");
 
 		// SpringFramework FileUpload
-		String temDir = "C:\\Users\\bitcamp\\git\\MiniProject09\\09.Model2MVCShop(jQuery)\\WebContent\\images\\uploadFiles";
+		String temDir = "C:\\Users\\bitcamp\\git\\MiniProject10\\10.Model2MVCShop(Ajax)\\WebContent\\images\\uploadFiles";
 //		String temDir = "C:\\Users\\iamsung33\\git\\MiniProject09\\09.Model2MVCShop(jQuery)\\WebContent\\images\\uploadFiles";
 			
 		multipartFile = mRequest.getFile("fileNames");
@@ -173,10 +176,8 @@ public class ProductController {
 
 		productService.addProduct(product);
 		
-//		return "forward:/product/getProduct.jsp";
 		return "forward:/product/addProduct.jsp";
 	}	
-//*/	
 	
 	
 	
@@ -216,13 +217,12 @@ public class ProductController {
 	@RequestMapping( value="updateProduct", method=RequestMethod.POST)
 	public String updateProduct( @ModelAttribute("product") Product product, 
 			MultipartHttpServletRequest mRequest, MultipartFile multipartFile,
-//			@RequestParam("manuDate") String manuDate,
 			Model model ) throws Exception{
 
 		System.out.println("/product/updateProduct : POST");
 
 		// SpringFramework FileUpload
-		String temDir = "C:\\Users\\bitcamp\\git\\MiniProject09\\09.Model2MVCShop(jQuery)\\WebContent\\images\\uploadFiles";
+		String temDir = "C:\\Users\\bitcamp\\git\\MiniProject10\\10.Model2MVCShop(Ajax)\\WebContent\\images\\uploadFiles";
 //		String temDir = "C:\\Users\\iamsung33\\git\\MiniProject09\\09.Model2MVCShop(jQuery)\\WebContent\\images\\uploadFiles";
 			
 		multipartFile = mRequest.getFile("fileNames");
@@ -240,8 +240,6 @@ public class ProductController {
 		//////////////////////////////////////////////////////////
 		
 		
-		//Business Logic
-//		product.setManuDate(manuDate.replace("-", ""));
 		productService.updateProduct(product);
 		model.addAttribute(product);
 		
@@ -250,14 +248,14 @@ public class ProductController {
 	
 	@RequestMapping( value="listProduct" )
 	public String listProduct( @ModelAttribute("search") Search search, 
-			@ModelAttribute("product") Product product,  
+			@ModelAttribute("product") Product product, 
 			@RequestParam("menu") String menu, 
 				@RequestParam(value="lowPriceCondition", required=false, defaultValue="") String lowPriceCondition,
 				@RequestParam(value="highPriceCondition", required=false, defaultValue="") String highPriceCondition,
 				Model model ) throws Exception{
 		
 		System.out.println("/product/listProduct : GET / POST");
-				
+		
 		if(search.getCurrentPage() ==0 ){
 			search.setCurrentPage(1);
 		}

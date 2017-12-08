@@ -19,10 +19,6 @@
 
 function fncAddProduct(){
 	//Form 유효성 검증
-// 	var name = document.detailForm.prodName.value;
-//	var detail = document.detailForm.prodDetail.value;
-//	var manuDate = document.detailForm.manuDate.value;
-//	var price = document.detailForm.price.value;
 	
 	var name=$("input[name='prodName']").val();
 	var detail=$("input[name='prodDetail']").val();
@@ -46,17 +42,9 @@ function fncAddProduct(){
 		return;
 	}
 
-//	document.detailForm.action='/product/addProduct';
-//	document.detailForm.submit();
-
 	$("form").attr("method", "POST").attr("action", "/product/addProduct").attr("enctype", "multipart/form-data").submit();
 	
 }
-
-//function resetData(){
-//	document.detailForm.reset();
-//	$( $("form")[0] ).reset();
-//}
 
 $( function(){
 	$( "td.ct_btn01:contains('등록')" ).bind("click", function(){
@@ -67,7 +55,6 @@ $( function(){
 $( function(){
 	$( "td.ct_btn01:contains('취소')" ).bind("click", function(){
 	$( $("form")[0] ).reset();
-	//	resetData();
 	});
 });
 
@@ -78,7 +65,6 @@ $( function(){
 
 <body bgcolor="#ffffff" text="#000000">
 
-<!-- <form name="detailForm" method="post" enctype="multipart/form-data"> -->
 <form name="detailForm">
 
 <table width="100%" height="37" border="0" cellpadding="0"	cellspacing="0">
@@ -168,7 +154,7 @@ $( function(){
 		<td width="104" class="ct_write">상품이미지</td>
 		<td bgcolor="D6D6D6" width="1"></td>
 		<td class="ct_write01">
-			 <input type="file" name="fileName" class="ct_input_g" style="width: 350px; height: 19px" maxLength="13"/>
+			 <input type="file" name="fileNames" class="ct_input_g" style="width: 350px; height: 19px" maxLength="13"/>
 		</td>
 	</tr>
 	<tr>
@@ -187,7 +173,6 @@ $( function(){
 				</td>
 				<td background="/images/ct_btnbg02.gif" class="ct_btn01" style="padding-top: 3px;">
 					등록
-					<!-- <a href="javascript:fncAddProduct();">등록</a> -->
 				</td>
 				<td width="14" height="23">
 					<img src="/images/ct_btnbg03.gif" width="14" height="23"/>
@@ -198,7 +183,6 @@ $( function(){
 				</td>
 				<td background="/images/ct_btnbg02.gif" class="ct_btn01" style="padding-top: 3px;">
 					취소
-					<!-- <a href="javascript:resetData();">취소</a> -->
 				</td>
 				<td width="14" height="23">
 					<img src="/images/ct_btnbg03.gif" width="14" height="23"/>
