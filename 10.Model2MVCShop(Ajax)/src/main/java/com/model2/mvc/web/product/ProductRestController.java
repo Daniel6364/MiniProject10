@@ -178,13 +178,19 @@ public class ProductRestController {
 		return product;
 	}	
 	
-	@RequestMapping( value="json/getProduct/{prodNo}", method=RequestMethod.GET)
-	public Product getProduct( @PathVariable String prodNo ) throws Exception {
+	@RequestMapping( value="json/getProduct/{prodNo}/{menu}", method=RequestMethod.GET)
+	public Product getProduct( @PathVariable String prodNo, 
+			@PathVariable String menu ) throws Exception {
 		
 		System.out.println("/product/json/getProduct : GET");
 
+		if (menu.equals("search")) {
+			return	productService.getProduct(Integer.parseInt(prodNo));
+		} else {
+			return productService.updateProduct(prodNo);;
+		}
+		
 		//Business Logic
-		return	productService.getProduct(Integer.parseInt(prodNo));
 
 	}
 	
