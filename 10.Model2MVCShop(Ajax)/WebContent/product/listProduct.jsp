@@ -59,17 +59,17 @@ $(function(){
 });
 
 $(function(){
-
-	$( ".ct_list_pop td:nth-child(3)" ).bind("click" , function() {
+	
+	$( ".ct_list_pop td:nth-child(5)" ).bind("mouseenter" , function() {
 		
-		var proTranCode = $( $('input[name="proTranCode"]')[$( ".ct_list_pop td:nth-child(3)" ).index(this)] ).val();
-		var prodNo = $( $('input[name="prodNo"]')[$( ".ct_list_pop td:nth-child(3)" ).index(this)] ).val();
+		var proTranCode = $( $('input[name="proTranCode"]')[$( ".ct_list_pop td:nth-child(5)" ).index(this)] ).val();
+		var prodNo = $( $('input[name="prodNo"]')[$( ".ct_list_pop td:nth-child(5)" ).index(this)] ).val();
 		
-		// 추가기능 : 재고없음 상품 클릭시 alert event 발생 
 		if ( "${user.userId}" != 'admin' && "${user.userId}" != 'manager' ) { 
-			if (proTranCode == '') {
+			if (proTranCode == '' || proTranCode == null) {
+			
 			//	self.location ="/product/getProduct?prodNo=" + prodNo + "&menu=${ menu }";
-				
+			var prodName = $(this).text().trim();
 				$.ajax (
 						{
 							url : "/product/json/getProduct/" + prodNo ,
@@ -86,50 +86,84 @@ $(function(){
 													+"상품이미지 : " + JSONData.fileName + "<br/>"
 													+"상품상세정보 : " + JSONData.prodDetail + "<br/>"
 													+"제 조 일 자 : " + JSONData.manuDate + "<br/>"
-													+"가 격 : " + JSONData.price + "<br/>"
+													+"가 격 : " + JSONData.price + " 원 <br/>"
+													+"등 록 일 자 : " + JSONData.regDate + "<br/>"
+													+ "</h3>";
+
+								$("h3").remove();
+								$("h1").remove();					
+								$( "#"+prodName+"" ).html(displayValue);
+							}
+					
+				}); // end of $.ajax
+				
+			} else if (proTranCode != null) {
+				
+				var prodName = $(this).text().trim();
+				$.ajax (
+						{
+							url : "/product/json/getProduct/" + prodNo ,
+							method : "GET",
+							dataType : "json",
+							headers : {
+								"Accept" : "application/json",
+								"Content-Type" : "application/json"
+							},
+							success : function(JSONData , status) {
+								var displayValue = '<h1><font color="red">' + "해당상품은 현재 구매하실 수 없습니다. [재고없음]" 
+													+ "</font></h1><br/>"
+													+ "<h3>"
+													+"상 품 번 호  : " + JSONData.prodNo + "<br/>"
+													+"상 품 명 : " + JSONData.prodName + "<br/>"
+													+"상품이미지 : " + JSONData.fileName + "<br/>"
+													+"상품상세정보 : " + JSONData.prodDetail + "<br/>"
+													+"제 조 일 자 : " + JSONData.manuDate + "<br/>"
+													+"가 격 : " + JSONData.price + " 원 <br/>"
 													+"등 록 일 자 : " + JSONData.regDate + "<br/>"
 													+ "</h3>";
 													
 								$("h3").remove();
-								$( "#"+prodNo+"" ).html(displayValue);
+								$("h1").remove();
+								$( "#"+prodName+"" ).html(displayValue);
 							}
-					
-				});
-				
-				
-				
-				
-				
-				
-			} else if (proTranCode != null) {
-				alert( "해당상품은 현재 구매하실 수 없습니다. [재고부족]");
+				}); // end of $.ajax
 			}
-		} else {
-			self.location ="/product/getProduct?prodNo=" + prodNo + "&menu=${ menu }";
 		} 
+		
 	});
+		
 });
 
 $(function(){
 	
-	$( ".ct_list_pop td:nth-child(9):contains('배송하기')" ).bind("click" , function() {
-		var prodNo = $( $('input[name="prodNo"]')[$( ".ct_list_pop td:nth-child(9)" ).index(this)] ).val();
-//		self.location = "/purchase/updateTranCodeByProd?prodNo=" + prodNo + "&tranCode=1"
+	$( ".ct_list_pop td:nth-child(5)" ).bind("click" , function() {
 		
-		$.ajax(
-				{
-					url : "/purchase/json/updateTranCodeByProd/" + prodNo + "/1",
-					method : "GET",
-					dataType : "json",
-					headers : {
-						"Accept" : "application/json",
-						"Content-Type" : "application/json"
-					}
-				});
-	});
+		var proTranCode = $( $('input[name="proTranCode"]')[$( ".ct_list_pop td:nth-child(5)" ).index(this)] ).val();
+		var prodNo = $( $('input[name="prodNo"]')[$( ".ct_list_pop td:nth-child(5)" ).index(this)] ).val();
+		
+		if ( "${user.userId}" != 'admin' && "${user.userId}" != 'manager' ) { 
+			if (proTranCode == '' || proTranCode == null) {
+				self.location ="/product/getProduct?prodNo=" + prodNo + "&menu=${ menu }";
+			} else {
+				alert("해당상품은 현재 구매하실 수 없습니다.")
+			}
+		} else {
+			self.location ="/product/getProduct?prodNo=" + prodNo + "&menu=${ menu }";
+		}
 	
-	$( ".ct_list_pop td:nth-child(9):contains('배송하기')" ).css("color", "red");
+	});
 });
+
+
+$(function(){
+	$( ".ct_list_pop td:nth-child(11):contains('배송하기')" ).bind("click" , function() {
+		var prodNo = $( $('input[name="prodNo"]')[$( ".ct_list_pop td:nth-child(11)" ).index(this)] ).val();
+		self.location = "/purchase/updateTranCodeByProd?prodNo=" + prodNo + "&tranCode=1"
+		
+	});
+		$( ".ct_list_pop td:nth-child(11):contains('배송하기')" ).css("color", "red");
+});
+
  
 	</script>
 </head>
@@ -200,20 +234,20 @@ $(function(){
 			전체  ${ resultPage.totalCount } 건수, 현재 ${ resultPage.currentPage } 페이지
 		</td>
 	</tr>
+	
 	<tr>
-		
 		<td colspan="2" class="lowPrice">
-			<input type="hidden" id="lowPriceSearch" name="lowPriceCondition" value="">
-				[낮은가격순 ▼]</input>
+			<input type="hidden" id="lowPriceSearch" name="lowPriceCondition" value="">[낮은가격순 ▼]
 		</td>
-		
 		<td colspan="2" class="highPrice">
-			<input type="hidden" id="highPriceSearch" name="highPriceCondition" value="">
-				[높은가격순 ▲]</input>
+			<input type="hidden" id="highPriceSearch" name="highPriceCondition" value="">[높은가격순 ▲]
 		</td>
 	</tr>
+
 	<tr>
 		<td class="ct_list_b" width="100">No</td>
+		<td class="ct_line02"></td>
+		<td class="ct_list_b" width="150">상품이미지</td>
 		<td class="ct_line02"></td>
 		<td class="ct_list_b" width="150">상품명</td>
 		<td class="ct_line02"></td>
@@ -231,6 +265,15 @@ $(function(){
 		<c:set var="i" value="${ i+1 }" />
 		<tr class="ct_list_pop">
 			<td align="center">${ i }</td>
+			<td></td>
+			<td align="center">
+					<c:if test = "${ product.fileName == null }">
+						<img src="http://placehold.it/50X50" />
+					</c:if>
+					<c:if test = "${ product.fileName != null }">
+						<img src="/images/uploadFiles/${ product.fileName }" height="50px"/>
+					</c:if>
+			</td>
 			<td></td>
 			<td align="left">
 					<input type="hidden" name="prodNo" value="${ product.prodNo }">
@@ -258,7 +301,7 @@ $(function(){
 			</td>
 		</tr>
 		<tr>
-			<td id="${ product.prodNo }" colspan="11" bgcolor="D6D7D6" height="1"></td>
+			<td id="${ product.prodName }" colspan="11" bgcolor="D6D7D6" height="1"></td>
 		</tr>
 	</c:forEach>
 </table>

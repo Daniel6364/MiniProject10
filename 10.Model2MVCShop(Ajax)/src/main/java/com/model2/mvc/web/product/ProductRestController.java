@@ -57,7 +57,7 @@ public class ProductRestController {
 	int pageSize;
 	
 	
-	@RequestMapping( value="json/addProduct", method=RequestMethod.POST)
+	//@RequestMapping( value="json/addProduct", method=RequestMethod.POST)
 	public Product addProduct( @RequestBody Product product ) throws Exception {
 
 		System.out.println("/product/json/addProduct : POST");
@@ -150,7 +150,7 @@ public class ProductRestController {
 	}
 	
 	// FileUpload 2.
-	//@RequestMapping( value="json/addProduct", method=RequestMethod.POST )
+	@RequestMapping( value="json/addProduct", method=RequestMethod.POST )
 	public Product addProduct( @RequestBody Product product, 
 			MultipartHttpServletRequest mRequest,
 			MultipartFile multipartFile ) throws Exception {
@@ -158,7 +158,7 @@ public class ProductRestController {
 		System.out.println("/product/json/addProduct : POST");
 
 		// SpringFramework FileUpload
-		String temDir = "C:\\Users\\bitcamp\\git\\MiniProject08(Rest Server)\\08.Model2MVCShop(Rest Server)\\WebContent\\images\\uploadFiles";
+		String temDir = "C:\\Users\\bitcamp\\git\\MiniProject10\\10.Model2MVCShop(Ajax)\\WebContent\\images\\uploadFiles";
 			
 		multipartFile = mRequest.getFile("fileNames");
 
@@ -178,23 +178,15 @@ public class ProductRestController {
 		return product;
 	}	
 	
-	@RequestMapping( value="json/getProduct/{prodNo}/{menu}", method=RequestMethod.GET)
-	public Product getProduct( @PathVariable String prodNo, 
-			@PathVariable String menu ) throws Exception {
+	@RequestMapping( value="json/getProduct/{prodNo}", method=RequestMethod.GET)
+	public Product getProduct( @PathVariable String prodNo ) throws Exception {
 		
 		System.out.println("/product/json/getProduct : GET");
-
-		if (menu.equals("search")) {
-			return	productService.getProduct(Integer.parseInt(prodNo));
-		} else {
-			return productService.updateProduct(prodNo);;
-		}
 		
-		//Business Logic
-
+			return	productService.getProduct(Integer.parseInt(prodNo));
 	}
 	
-	//@RequestMapping( value="updateProduct", method=RequestMethod.GET)
+	//@RequestMapping( value="json/updateProduct", method=RequestMethod.GET)
 	public String updateProduct( @RequestParam("prodNo") String prodNo , 
 			Model model ) throws Exception{
 
@@ -208,10 +200,28 @@ public class ProductRestController {
 	}
 
 	@RequestMapping( value="json/updateProduct", method=RequestMethod.POST)
-	public Product updateProduct( @RequestBody Product product ) throws Exception{
+	public Product updateProduct( @RequestBody Product product,
+			MultipartHttpServletRequest mRequest,
+			MultipartFile multipartFile ) throws Exception{
 
 		System.out.println("/product/json/updateProduct : POST");
 		//Business Logic
+		
+		// SpringFramework FileUpload
+		String temDir = "C:\\Users\\bitcamp\\git\\MiniProject10\\10.Model2MVCShop(Ajax)\\WebContent\\images\\uploadFiles";
+
+		multipartFile = mRequest.getFile("fileNames");
+
+		if (!multipartFile.isEmpty()) {
+			System.out.println("[multipartFile check in if loop]");
+			System.out.println(multipartFile.toString());
+
+			File file = new File(temDir, multipartFile.getOriginalFilename());
+
+			multipartFile.transferTo(file);
+			product.setFileName(multipartFile.getOriginalFilename());
+
+		}
 		
 		productService.updateProduct(product);
 		
