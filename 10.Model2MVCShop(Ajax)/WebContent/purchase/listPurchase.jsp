@@ -14,11 +14,8 @@
 
 //검색 / page 두가지 경우 모두 Form 전송을 위해 JavaScrpt 이용  
 function fncGetList(currentPage) {
-//	document.getElementById("currentPage").value = currentPage;
-// 	document.detailForm.submit();
 	$("#currentPage").val(currentPage)
 	$('form').attr("method", "POST").attr("action", "/purchase/listPurchase").submit();
-
 }
 
 
@@ -41,12 +38,23 @@ $( function(){
 $( function(){
 	$('.ct_list_pop td:contains("물건도착")').bind("click", function(){
 		var tranNo = $( $('input[name="tranNo"]')[$('.ct_list_pop td:nth-child(11)').index(this)] ).val(); 
-		self.location = "/purchase/updateTranCode?tranNo=" + tranNo + "&tranCode=2" 
+	//	self.location = "/purchase/updateTranCode?tranNo=" + tranNo + "&tranCode=2"
+	
+	$.ajax({
+						url : "/purchase/json/updateTranCode/" + tranNo + "/2",
+						method : "GET",
+						dataType : "json",
+						headers : {
+							"Accept" : "application/json",
+							"Content-Type" : "application/json"
+						},
+						success : function(JSONData, status) {
+							location.reload();
+						}
+
+					}); // end of $.ajax
+				});
 	});
-});		
-		
-		
-		
 </script>
 </head>
 
@@ -54,7 +62,6 @@ $( function(){
 
 <div style="width: 98%; margin-left: 10px;">
 
-<!-- <form name="detailForm" action="/purchase/listPurchase" method="post"> -->
 <form name="detailForm">
 
 <table width="100%" height="37" border="0" cellpadding="0"	cellspacing="0">
@@ -78,13 +85,13 @@ $( function(){
 		</td>
 	</tr>
 	<tr>
-		<td class="ct_list_b" width="100">No</td>
+		<td class="ct_list_b" width="80">No</td>
 		<td class="ct_line02"></td>
-		<td class="ct_list_b" width="150">회원ID</td>
+		<td class="ct_list_b" width="120">구매회원ID</td>
 		<td class="ct_line02"></td>
-		<td class="ct_list_b" width="150">회원명</td>
+		<td class="ct_list_b" width="120">받는이</td>
 		<td class="ct_line02"></td>
-		<td class="ct_list_b">전화번호</td>
+		<td class="ct_list_b">받는이 전화번호</td>
 		<td class="ct_line02"></td>
 		<td class="ct_list_b">배송현황</td>
 		<td class="ct_line02"></td>
@@ -98,20 +105,18 @@ $( function(){
 		<c:set var="i" value="${ i + 1 }" />
 	<tr class="ct_list_pop">
 		<td align="center">
-			<input type="hidden" name="tranNo" value="${ purchase.tranNo }">${ i }</input>
-		<!-- <a href="/purchase/getPurchase?tranNo=${ purchase.tranNo }">${ i }</a> -->
+			<input type="hidden" name="tranNo" value="${ purchase.tranNo }">${ i }
 		</td>
 		<td></td>
-		<td align="left">
-			<input type="hidden" name="buyerUserId" value="${ purchase.buyer.userId }">${ purchase.buyer.userId }</input>
-		<!-- <a href="/user/getUser?userId=${ purchase.buyer.userId }">${ purchase.buyer.userId }</a> -->
+		<td align="center">
+			<input type="hidden" name="buyerUserId" value="${ purchase.buyer.userId }">${ purchase.buyer.userId }
 		</td>
 		<td></td>
-		<td align="left">${ purchase.receiverName }</td>
+		<td align="center">${ purchase.receiverName }</td>
 		<td></td>
-		<td align="left">${ purchase.receiverPhone }</td>
+		<td align="center">${ purchase.receiverPhone }</td>
 		<td></td>
-		<td align="left"> 현재
+		<td align="center"> 현재
 			<c:if test="${ purchase.tranCode == '0' }">
 				구매완료
 			</c:if>
@@ -123,10 +128,9 @@ $( function(){
 			</c:if> 상태 입니다.
 		</td>
 		<td></td>
-		<td align="left">
+		<td align="center">
 			<c:if test="${ purchase.tranCode == '1' }">
-				<input type="hidden" name="tranNo" value="${ purchase.tranNo }">물건도착</input>
-			<!-- <a href="/purchase/updateTranCode?tranNo=${ purchase.tranNo }&tranCode=2">물건도착</a> -->
+				<input type="hidden" name="tranNo" value="${ purchase.tranNo }">물건도착
 			</c:if>
 		</td>
 	</tr>

@@ -157,15 +157,26 @@ $(function(){
 
 $(function(){
 	$( ".ct_list_pop td:nth-child(11):contains('배송하기')" ).bind("click" , function() {
-		var prodNo = $( $('input[name="prodNo"]')[$( ".ct_list_pop td:nth-child(11)" ).index(this)] ).val();
-		self.location = "/purchase/updateTranCodeByProd?prodNo=" + prodNo + "&tranCode=1"
 		
-	});
-		$( ".ct_list_pop td:nth-child(11):contains('배송하기')" ).css("color", "red");
-});
+		var prodNo = $( $('input[name="prodNo"]')[$( ".ct_list_pop td:nth-child(11)" ).index(this)] ).val();
+	//	self.location = "/purchase/updateTranCodeByProd?prodNo=" + prodNo + "&tranCode=1"
+			
+	$.ajax({
+						url : "/purchase/json/updateTranCodeByProd/" + prodNo + "/1",
+						method : "GET",
+						dataType : "json",
+						headers : {
+							"Accept" : "application/json",
+							"Content-Type" : "application/json"
+						},
+						success : function(JSONData, status) {
+							location.reload();
+						}
 
- 
-	</script>
+					}); // end of $.ajax
+				});
+	});
+</script>
 </head>
 
 

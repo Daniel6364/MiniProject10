@@ -79,7 +79,7 @@ public class ProductController {
 		//FileUpload
 		if(FileUpload.isMultipartContent(request)) {
 			System.out.println("[1] IF loop");
-			String temDir = "C:\\Users\\bitcamp\\git\\MiniProject07\\07.Model2MVCShop(URI,pattern)\\WebContent\\images\\uploadFiles";
+			String temDir = "C:\\Users\\bitcamp\\git\\MiniProject10\\10.Model2MVCShop(Ajax)\\WebContent\\images\\uploadFiles";
 			
 			DiskFileUpload fileUpload = new DiskFileUpload();
 			fileUpload.setRepositoryPath(temDir);
