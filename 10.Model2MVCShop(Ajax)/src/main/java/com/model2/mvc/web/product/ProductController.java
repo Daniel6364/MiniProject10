@@ -148,7 +148,7 @@ public class ProductController {
 	}
 	
 	
-	// FileUpload 2.
+	///* FileUpload 2.
 	@RequestMapping( value="addProduct", method=RequestMethod.POST )
 	public String addProduct( @ModelAttribute("product") Product product, 
 			MultipartHttpServletRequest mRequest, MultipartFile multipartFile,
@@ -178,7 +178,44 @@ public class ProductController {
 		
 		return "forward:/product/addProduct.jsp";
 	}	
+	//*/
 	
+	/* FileUpload 3. (Multi)
+		@RequestMapping( value="addProduct", method=RequestMethod.POST )
+		public String addProduct( @ModelAttribute("product") Product product, 
+				MultipartHttpServletRequest mRequest, MultipartFile multipartFile,
+				Model model) throws Exception {
+
+			System.out.println("/product/addProduct : POST");
+
+			// SpringFramework FileUpload
+			String temDir = "C:\\Users\\bitcamp\\git\\MiniProject10\\10.Model2MVCShop(Ajax)\\WebContent\\images\\uploadFiles";
+//			String temDir = "C:\\Users\\iamsung33\\git\\MiniProject09\\09.Model2MVCShop(jQuery)\\WebContent\\images\\uploadFiles";
+				
+			
+			for (int i = 0; i < product.getFileNames().size(); i++) {
+				System.out.println("CCC"+product.getFileNames());
+			}
+			
+			multipartFile = mRequest.getFile();
+
+			if (!multipartFile.isEmpty()) {
+				System.out.println("[multipartFile check in if loop]");
+				System.out.println(multipartFile.toString());
+				
+			File file = new File(temDir, multipartFile.getOriginalFilename());
+			
+			multipartFile.transferTo(file);
+			product.setFileName(multipartFile.getOriginalFilename());
+				
+			}
+			//////////////////////////////////////////////////////////
+
+			productService.addProduct(product);
+			
+			return "forward:/product/addProduct.jsp";
+		}	
+		//*/
 	
 	
 	@RequestMapping( value="getProduct", method=RequestMethod.GET)
